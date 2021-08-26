@@ -5,6 +5,7 @@ const passport = require('passport')
 const mongoose = require('mongoose')
 const routes = require('../routes/routes')
 const config = require('../database/config')
+const Resume = require('../models/resume')
 
 const PORT = process.env.PORT || 5000
 
@@ -16,7 +17,8 @@ mongoose.connect(config.database,
         useFindAndModify:false,
         useNewUrlParser:true,
         useUnifiedTopology:true
-    })
+    }
+)
 
 mongoose.connection.on('connected',()=>{
     console.log('Connected to database')
@@ -24,6 +26,7 @@ mongoose.connection.on('connected',()=>{
 mongoose.connection.on('error',()=>{
     console.log('Cannot connect to databse')
 })
+
 
 app.use(cors())
 
@@ -38,6 +41,7 @@ require('../database/passport')(passport)
 app.use(express.static(path.join(__dirname,'../public')))
 
 app.use('/users',routes)
+
 
 app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'../public/index.html'))

@@ -1,0 +1,80 @@
+const mongoose = require('mongoose')
+
+const resumeDbSchema = new mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+    },
+    email:{
+        type:String,
+        required:true
+    },
+    phone:{
+        type:String,
+        required:true
+    },
+    address:{
+        type:String,
+        required:true
+    },
+    role:{
+        type:String,
+        required:true
+    },
+    languages:{
+        type:String,
+        required:true
+    },
+    highschool:{
+        type:String,
+        required:true
+    },
+    intermediate:{
+        type:String,
+        required:true
+    },
+    graduation:{
+        type:String,
+        required:true
+    },
+    highmarks:{
+        type:String,
+        required:true
+    },
+    intermarks:{
+        type:String,
+        required:true
+    },
+    graduationmarks:{
+        type:String,
+        required:true
+    },
+    skills:{
+        type:String,
+        required:true
+    },
+    linkdin:{
+        type:String,
+        required:true
+    },
+    github:{
+        type:String,
+        required:true
+    },
+    instagram:{
+        type:String,
+        required:true
+    },
+    objective:{
+        type:String,
+        required:true
+    },
+    hobbies:{
+        type:String,
+        required:true
+    },
+
+},{collection:'resume'})
+
+const Resume = module.exports =  mongoose.model('resume',resumeDbSchema)
+
