@@ -5,6 +5,50 @@ const passport = require('passport')
 const config = require('../database/config')
 const User = require('../models/register')
 const Resume = require('../models/resume') 
+const nodemailer = require('nodemailer')
+const {google} = require('googleapis')
+
+
+const CLIENT_ID = '90134197976-6ipmig730424rf3qadpq5d0nvlugmggb.apps.googleusercontent.com'
+const CLIENT_SECRET = '3-tN1efodGH8tU9Rf0FPdKVW'
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
+const REFRESH_TOKEN = '1//04PhvAsSXhKa2CgYIARAAGAQSNwF-L9IrhIf9za5uq5qrsjde5bgqdQ64L9QsopR4XfpDLVMMP_oqvQXn3fSErfg1L5vyloNiROA'
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI)
+oAuth2Client.setCredentials({refresh_token:REFRESH_TOKEN})
+
+
+async function sendMail(userEmail,link){
+    try {
+        const accessToken = await oAuth2Client.getAccessToken()
+        const transport = nodemailer.createTransport({
+            service:'gmail',
+            auth:{
+                type:'OAUTH2',
+                user:'utkarsh.11802819@gmail.com',
+                clientId:CLIENT_ID,
+                clientSecret:CLIENT_SECRET,
+                refreshToken:REFRESH_TOKEN,
+                accessToken:accessToken
+            }
+        })
+
+        const mailOptions = {
+            from: 'EASY RESUME <utkarsh.11802819@gmail.com>',
+            to: userEmail,
+            subject: 'Password Reset Link',
+            text:'Reset your Account Password, link is valid for only 15 minutes.',
+            html:`<h3>Reset your Account Password, link is valid for only 15 minutes.</h3></br>Click <a href=${link}>Here</a> to reset your password.`
+        }
+
+        const result = await transport.sendMail(mailOptions)
+        console.log(result)
+        return result
+
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
 
 
@@ -172,7 +216,72 @@ router.post('/update-resume:id',async(req,res,next)=>{
     }
 })
 
+//forgot-password
 
+router.post('/forgot-password',async(req,res,next)=>{
+   const email = req.body.email
+   const ifMatch = await User.findOne({email})
+   if(ifMatch){
+       const secret = config.reset + ifMatch.password
+       const payload = {
+           id : ifMatch._id,
+           email : ifMatch.email
+        }
+        const token = jwt.sign(payload,secret,{expiresIn:'15m'})
+        const link = `http://meanstack-auth.herokuapp.com/reset-password/${ifMatch._id}/${token}`
+        const ifSend = await sendMail(email,link)
+        if(ifSend){
+            res.json({success:true})
+        }else{
+            res.json({success:false})
+        }
+        console.log(link)
+   }else{
+       res.json({success:false})
+   }
+})
+router.get('/reset-password/:id/:token',async(req,res,next)=>{
+    const {id,token} = req.params
+    try {
+        const checkId = await User.findById({_id:id})
+        if(checkId){
+            const secret = config.reset + checkId.password  
+            try {
+                const payload = jwt.verify(token,secret)
+                if(payload){
+                    res.json({success:true})
+                }
+            }   catch (error) {
+                    res.json({success:false})
+                    }   
+                }
+            }
+    catch (error) {
+        res.json({success:false})
+    }
+})
 
+router.post('/reset-password/:id',async(req,res,next)=>{
+    const _id = req.params.id
+    let password = req.body.password
+
+    try {
+        User.updatePassword(password,async(err,hash)=>{
+            if(err){
+                res.json({success:false})
+            }
+            if(hash){
+                const updated = await User.findByIdAndUpdate({_id},{password:hash})
+                if(updated){
+                    res.json({success:true})
+                }
+            }
+            
+        })
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false})
+    }
+})
 
 module.exports = router

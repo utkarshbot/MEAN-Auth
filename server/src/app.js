@@ -7,7 +7,8 @@ const routes = require('../routes/routes')
 const config = require('../database/config')
 const Resume = require('../models/resume')
 
-const PORT = process.env.PORT || 5000
+const port = process.env.PORT || 5000
+
 
 const app = express()
 
@@ -47,4 +48,6 @@ app.get('*',(req,res)=>{
     res.sendFile(path.join(__dirname,'../public/index.html'))
 })
 
-app.listen(PORT,()=>console.log(`Server Running on port ${PORT}`))
+
+
+app.listen(port,()=>console.log(`Server Running on port ${port}`))

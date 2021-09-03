@@ -64,3 +64,13 @@ module.exports.comparePassword = function(userPassword,hash,callback){
         callback(null,isMatch)
     })
 }
+
+module.exports.updatePassword = function(password,callback){
+    bcrypt.genSalt(10,(err,salt)=>{
+        bcrypt.hash(password,salt,(err,hash)=>{
+            if(err)
+                throw err
+            callback(null,hash)
+        })
+    })
+}
