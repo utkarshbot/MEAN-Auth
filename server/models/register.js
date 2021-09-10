@@ -22,16 +22,18 @@ const userSchema = new mongoose.Schema({
     username:{
         type:String,
         unique:true,
-        required:true
-    },
+        require:true,
+        lowercase:true
+    },  
     age:{
         type:Number,
-        required:true
     },
     phone:{
         type:Number,
-        required:true
     },
+    photoUrl:{
+        type:String
+    }
     
 })
 

@@ -42,7 +42,6 @@ async function sendMail(userEmail,link){
         }
 
         const result = await transport.sendMail(mailOptions)
-        console.log(result)
         return result
 
     } catch (error) {
@@ -58,13 +57,14 @@ router.post('/register',(req,res,next)=>{
         lastname:req.body.lastname,
         username:req.body.username,
         email:req.body.email,
-        phone:req.body.phone,
-        age:req.body.age,
         password:req.body.password,
+        photoUrl:req.body.photoUrl
     })
     User.addUser(user,(err,callback)=>{
-        if(err)
+        if(err){
             res.json({success:false,massage:'not registerd'})
+            console.log(err)
+        }
         else{
             const token = jwt.sign({user},config.secret,{expiresIn:604800})
             res.json({success:true,massage:'user registerd',token:'JWT '+token,user:user})
@@ -96,7 +96,8 @@ router.post('/authanticate',(req,res,next)=>{
                         lastname:user.lastname,
                         phone:user.phone,
                         email:user.email,
-                        age:user.age
+                        age:user.age,
+                        photoUrl:user.photoUrl
                     }
                 })
             }else{
@@ -235,7 +236,6 @@ router.post('/forgot-password',async(req,res,next)=>{
         }else{
             res.json({success:false})
         }
-        console.log(link)
    }else{
        res.json({success:false})
    }
@@ -248,6 +248,7 @@ router.get('/reset-password/:id/:token',async(req,res,next)=>{
             const secret = config.reset + checkId.password  
             try {
                 const payload = jwt.verify(token,secret)
+                console.log(payload)
                 if(payload){
                     res.json({success:true})
                 }
