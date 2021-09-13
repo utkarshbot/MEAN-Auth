@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type:String,
+        unique:true,
         required:true
     },
     password:{
@@ -21,8 +22,6 @@ const userSchema = new mongoose.Schema({
     },
     username:{
         type:String,
-        unique:true,
-        require:true,
         lowercase:true
     },  
     age:{
@@ -43,8 +42,8 @@ module.exports.getUserById = function(id,callback){
     User.findById(id,callback)
 }
 
-module.exports.getUserByUsername = function(username,callback){
-    const query = {username:username}
+module.exports.getUserByUserEmail = function(email,callback){
+    const query = {email:email}
     User.findOne(query,callback)
 }
 

@@ -63,7 +63,7 @@ router.post('/register',(req,res,next)=>{
     User.addUser(user,(err,callback)=>{
         if(err){
             res.json({success:false,massage:'not registerd'})
-            console.log(err)
+           
         }
         else{
             const token = jwt.sign({user},config.secret,{expiresIn:604800})
@@ -74,9 +74,9 @@ router.post('/register',(req,res,next)=>{
 })
 
 router.post('/authanticate',(req,res,next)=>{
-    const username = req.body.username
+    const email = req.body.email
     const password = req.body.password
-    User.getUserByUsername(username,(err,user)=>{
+    User.getUserByUserEmail(email,(err,user)=>{
         if(err)
             throw err
         if(!user)
@@ -90,7 +90,7 @@ router.post('/authanticate',(req,res,next)=>{
                     success:true,
                     token:'JWT '+token,
                     user:{
-                        id:user._id,
+                        _id:user._id,
                         username:user.username,
                         firstname:user.firstname,
                         lastname:user.lastname,
@@ -142,6 +142,7 @@ router.get('/profile',passport.authenticate('jwt',{session:false}),(req,res,next
 })
 
 router.post('/generateResume',async(req,res,next)=>{
+    //console.log(req.body.resumeForm)
     const newResume = new Resume({
          _id:req.body.id,
          name : req.body.resumeForm.name,
@@ -150,18 +151,14 @@ router.post('/generateResume',async(req,res,next)=>{
          address : req.body.resumeForm.address,
          role : req.body.resumeForm.role,
          languages : req.body.resumeForm.languages,
-         highschool: req.body.resumeForm.highschool,
-         intermediate: req.body.resumeForm.intermediate,
-         graduation: req.body.resumeForm.graduation,
-         highmarks: req.body.resumeForm.highmarks,
-         intermarks: req.body.resumeForm.intermarks,
-         graduationmarks: req.body.resumeForm.graduationmarks,
+         education :req.body.resumeForm.education,
          skills : req.body.resumeForm.skills,
          linkdin : req.body.resumeForm.linkdin,
          github : req.body.resumeForm.github,
          instagram : req.body.resumeForm.instagram,
          objective : req.body.resumeForm.objective,
-         hobbies : req.body.resumeForm.hobbies
+         hobbies : req.body.resumeForm.hobbies,
+         certificates:req.body.resumeForm.certificates
     })
     const saved = await newResume.save()
     if(saved){
@@ -188,25 +185,20 @@ router.post('/update-resume:id',async(req,res,next)=>{
     const address = req.body.address
     const role = req.body.role
     const languages = req.body.languages
-    const highschool= req.body.highschool
-    const intermediate= req.body.intermediate
-    const graduation= req.body.graduation
-    const highmarks= req.body.highmarks
-    const intermarks= req.body.intermarks
-    const graduationmarks= req.body.graduationmarks
+    const education = req.body.education
     const skills = req.body.skills
     const linkdin = req.body.linkdin
     const github = req.body.github
     const instagram = req.body.instagram
     const objective = req.body.objective
     const hobbies = req.body.hobbies
+    const certificates = req.body.certificates
     const updated = await Resume.findByIdAndUpdate(
         {_id},
         {
             name,email,phone,address,role,languages,
-            highschool,highmarks,intermarks,intermediate,
-            graduation,graduationmarks,skills,linkdin,github,
-            instagram,objective,hobbies
+            education,skills,linkdin,github,
+            instagram,objective,hobbies,certificates
         }
     )
     if(updated){
@@ -216,7 +208,6 @@ router.post('/update-resume:id',async(req,res,next)=>{
 
     }
 })
-
 //forgot-password
 
 router.post('/forgot-password',async(req,res,next)=>{
@@ -248,7 +239,6 @@ router.get('/reset-password/:id/:token',async(req,res,next)=>{
             const secret = config.reset + checkId.password  
             try {
                 const payload = jwt.verify(token,secret)
-                console.log(payload)
                 if(payload){
                     res.json({success:true})
                 }
@@ -280,7 +270,7 @@ router.post('/reset-password/:id',async(req,res,next)=>{
             
         })
     } catch (error) {
-        console.log(error.message)
+        
         res.json({success:false})
     }
 })
