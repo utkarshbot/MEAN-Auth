@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true
     },
     username:{
         type:String,
@@ -31,6 +30,12 @@ const userSchema = new mongoose.Schema({
         type:Number,
     },
     photoUrl:{
+        type:String
+    },
+    social:{
+        type:Boolean
+    },
+    socialPassword:{
         type:String
     }
     
@@ -48,14 +53,30 @@ module.exports.getUserByUserEmail = function(email,callback){
 }
 
 module.exports.addUser = function(newUser,callback){
-    bcrypt.genSalt(10,(err,salt)=>{
-        bcrypt.hash(newUser.password,salt,(err,hash)=>{
+    const social = newUser.social
+    if(social){
+        bcrypt.genSalt(10,(err,salt)=>{
             if(err)
                 throw err
-            newUser.password = hash
-            newUser.save(callback)
+            bcrypt.hash(newUser.socialPassword,salt,async(err,hash)=>{
+                if(err)
+                    throw err
+                newUser.socialPassword = hash
+                await newUser.save(callback)
+            })
         })
-    })
+    }else{
+        bcrypt.genSalt(10,(err,salt)=>{
+            if(err)
+                throw err
+            bcrypt.hash(newUser.password,salt,(err,hash)=>{
+                if(err)
+                    throw err
+                newUser.password = hash
+                newUser.save(callback)
+            })
+        })
+    }
 }
 
 module.exports.comparePassword = function(userPassword,hash,callback){

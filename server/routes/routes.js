@@ -52,17 +52,33 @@ async function sendMail(userEmail,link){
 
 
 router.post('/register',(req,res,next)=>{
-    const user = new User({
-        firstname:req.body.firstname,
-        lastname:req.body.lastname,
-        username:req.body.username,
-        email:req.body.email,
-        password:req.body.password,
-        photoUrl:req.body.photoUrl
-    })
+    const social = req.body.social
+    let user
+    if(social){
+        user = new User({
+            firstname:req.body.firstname,
+            lastname:req.body.lastname,
+            username:req.body.username,
+            email:req.body.email,
+            socialPassword:req.body.socialPassword,
+            photoUrl:req.body.photoUrl,
+            social:req.body.social
+        })
+    }
+    else{
+        user = new User({
+            firstname:req.body.firstname,
+            lastname:req.body.lastname,
+            username:req.body.username,
+            email:req.body.email,
+            password:req.body.password,
+            photoUrl:req.body.photoUrl,
+            social:req.body.social
+        })
+    }
     User.addUser(user,(err,callback)=>{
         if(err){
-            res.json({success:false,massage:'not registerd'})
+            res.json({success:false,massage:'Email Already exist! try to login'})
            
         }
         else{
@@ -73,37 +89,90 @@ router.post('/register',(req,res,next)=>{
     })
 })
 
+router.post('/create-password/:id',async(req,res)=>{
+    const _id = req.params.id
+    const password = req.body.password
+    try {
+        User.updatePassword(password,async(err,hash)=>{
+            if(err){
+                res.json({success:false})
+            }
+            if(hash){
+                const updated = await User.findByIdAndUpdate({_id},{password:hash})
+                if(updated){
+                    res.json({success:true})
+                }
+            }
+            
+        })
+    } catch (error) {
+        res.json({success:false})
+    }
+})
+
 router.post('/authanticate',(req,res,next)=>{
     const email = req.body.email
-    const password = req.body.password
+    const social = req.body.social
+    let password = ''
+    if(social){
+        password = req.body.socialPassword
+    }else{
+        password = req.body.password
+    }
     User.getUserByUserEmail(email,(err,user)=>{
         if(err)
             throw err
         if(!user)
             return res.json({success:false,message:'User not found'})
-        User.comparePassword(password,user.password,(err,isMatch)=>{
-            if(err)
-                throw err
-            if(isMatch){
-                const token = jwt.sign({user},config.secret,{expiresIn:604800})
-                res.json({
-                    success:true,
-                    token:'JWT '+token,
-                    user:{
-                        _id:user._id,
-                        username:user.username,
-                        firstname:user.firstname,
-                        lastname:user.lastname,
-                        phone:user.phone,
-                        email:user.email,
-                        age:user.age,
-                        photoUrl:user.photoUrl
+            if(social){
+                User.comparePassword(password,user.socialPassword,(err,isMatch)=>{
+                    if(err)
+                        throw err
+                    if(isMatch){
+                        const token = jwt.sign({user},config.secret,{expiresIn:604800})
+                        res.json({
+                            success:true,
+                            token:'JWT '+token,
+                            user:{
+                                _id:user._id,
+                                username:user.username,
+                                firstname:user.firstname,
+                                lastname:user.lastname,
+                                phone:user.phone,
+                                email:user.email,
+                                age:user.age,
+                                photoUrl:user.photoUrl
+                            }
+                        })
+                    }else{
+                        res.json({sucess:false,message:'Wrong Password'})
                     }
                 })
             }else{
-                res.json({sucess:false,message:'Wrong Password'})
+                User.comparePassword(password,user.password,(err,isMatch)=>{
+                    if(err)
+                        throw err
+                    if(isMatch){
+                        const token = jwt.sign({user},config.secret,{expiresIn:604800})
+                        res.json({
+                            success:true,
+                            token:'JWT '+token,
+                            user:{
+                                _id:user._id,
+                                username:user.username,
+                                firstname:user.firstname,
+                                lastname:user.lastname,
+                                phone:user.phone,
+                                email:user.email,
+                                age:user.age,
+                                photoUrl:user.photoUrl
+                            }
+                        })
+                    }else{
+                        res.json({sucess:false,message:'Wrong Password'})
+                    }
+                })
             }
-        })
     })
 })
 
