@@ -1,53 +1,46 @@
-const path = require('path')
-const cors = require('cors')
-const express = require('express')
-const passport = require('passport')
-const mongoose = require('mongoose')
-const routes = require('../routes/routes')
-const config = require('../database/config')
-const Resume = require('../models/resume')
+const path = require("path");
+const cors = require("cors");
+const express = require("express");
+const passport = require("passport");
+const mongoose = require("mongoose");
+const routes = require("../routes/routes");
+const config = require("../database/config");
+const Resume = require("../models/resume");
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 
+const app = express();
 
-const app = express()
+mongoose.connect(config.database, {
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-mongoose.connect(config.database,
-    {
-        useCreateIndex:true,
-        useFindAndModify:false,
-        useNewUrlParser:true,
-        useUnifiedTopology:true
-    }
-)
+mongoose.connection.on("connected", () => {
+  console.log("Connected to database");
+});
+mongoose.connection.on("error", () => {
+  console.log("Cannot connect to databse");
+});
 
-mongoose.connection.on('connected',()=>{
-    console.log('Connected to database')
-})
-mongoose.connection.on('error',()=>{
-    console.log('Cannot connect to databse')
-})
+app.use(cors());
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-app.use(cors())
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(express.urlencoded({extended:true}))
-app.use(express.json())
+require("../database/passport")(passport);
 
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(express.static(path.join(__dirname, "../public")));
 
-require('../database/passport')(passport)
+app.use("/users", routes);
 
-app.use(express.static(path.join(__dirname,'../public')))
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
-app.use('/users',routes)
-
-
-app.get('*',(req,res)=>{
-    res.sendFile(path.join(__dirname,'../public/index.html'))
-})
-
-
-
-app.listen(port,()=>console.log(`Server Running on port ${port}`))
+app.listen(port, () => console.log(`Server Running on port ${port}`));

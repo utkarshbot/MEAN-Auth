@@ -1,3 +1,6 @@
+@angular/animations
+MIT
+
 @angular/common
 MIT
 
@@ -5,6 +8,9 @@ MIT
 MIT
 
 @angular/forms
+MIT
+
+@angular/localize
 MIT
 
 @angular/platform-browser
@@ -63,6 +69,66 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+@progress/kendo-angular-pdf-export
+SEE LICENSE IN LICENSE.md
+
+@progress/kendo-drawing
+See license in LICENSE.md
+# Kendo UI
+
+This package is part of the [Kendo UI for Angular](http://www.telerik.com/kendo-angular-ui/) and [KendoReact](https://www.telerik.com/kendo-react-ui/components/#react-components) suites.
+
+## License
+
+This is commercial software. To use it, you need to agree to the [**Telerik End User License Agreement for Kendo UI** (for Kendo UI for Angular)](http://www.telerik.com/purchase/license-agreement/kendo-ui) or to the [**End User License Agreement for Progress KendoReact** (for KendoReact)](https://www.telerik.com/purchase/license-agreement/progress-kendoreact). If you do not own a commercial license, this file shall be governed by the trial license terms.
+
+All available Kendo UI commercial licenses may be obtained at http://www.telerik.com/purchase/kendo-ui.
+
+*Copyright © 2021 Progress Software Corporation and/or one of its subsidiaries or affiliates. All rights reserved.*
+
+
+@progress/kendo-file-saver
+Apache-2.0
+# Kendo UI
+
+This package is part of the [Kendo UI for Angular](http://www.telerik.com/kendo-angular-ui/) and [KendoReact](https://www.telerik.com/kendo-react-ui/components/#react-components) suites.
+
+## License
+
+This is commercial software. To use it, you need to agree to the [**Telerik End User License Agreement for Kendo UI** (for Kendo UI for Angular)](http://www.telerik.com/purchase/license-agreement/kendo-ui) or to the [**End User License Agreement for Progress KendoReact** (for KendoReact)](https://www.telerik.com/purchase/license-agreement/progress-kendoreact). If you do not own a commercial license, this file shall be governed by the trial license terms.
+
+All available Kendo UI commercial licenses may be obtained at http://www.telerik.com/purchase/kendo-ui.
+
+*Copyright © 2020 Progress Software Corporation and/or one of its subsidiaries or affiliates. All rights reserved.*
+
+
+@progress/kendo-licensing
+SEE LICENSE IN LICENSE.md
+
+@progress/kendo-theme-default
+Apache-2.0
+# Kendo UI Default Theme
+
+This package is part of the following suites:
+
+* [Kendo UI for Angular](http://www.telerik.com/kendo-angular-ui/)
+* [KendoReact](http://www.telerik.com/kendo-react-ui/)
+* [Kendo UI for jQuery](http://www.telerik.com/kendo-ui)
+* [UI for ASP.NET MVC](http://www.telerik.com/aspnet-mvc)
+* [UI for ASP.NET Core](http://www.telerik.com/aspnet-core-ui)
+
+## License
+
+All available Kendo UI commercial licenses may be obtained at http://www.telerik.com/purchase/kendo-ui.
+
+If you do not own a commercial license, the usage of this software shall be governed by the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+*Copyright © 2020 Progress Software Corporation and/or one of its subsidiaries or affiliates. All rights reserved.*
+
+
+@progress/pako-esm
+SEE LICENSE IN LICENSE.md
 
 angular2-flash-messages
 MIT
@@ -955,6 +1021,71 @@ Apache-2.0
  limitations under the License.
  
 
+
+stackblur-canvas
+MIT
+Copyright (c) 2010 Mario Klingemann
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+
+svg-pathdata
+MIT
+The MIT License (MIT)
+Copyright © 2017 Nicolas Froidure
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+tslib
+0BSD
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 
 zone.js
 MIT
